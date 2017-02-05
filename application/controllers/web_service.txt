@@ -1,0 +1,29 @@
+function nilai_get($id_siswa=null){
+    if($id_siswa!=null){
+        $nilai = $this->db->get('siswa', array('id_siswa'=>$id_siswa));
+        if($nilai->num_rows() == 1){
+            $respon = array(
+                    'status'=>true,
+                    'id_siswa'=>$nilai->row()->id_siswa,
+                    'nama_siswa'=>$nilai->row()->nama_siswa,
+                    'n_bahasa'=>$nilai->row()->n_bahasa,
+                    'n_matematika'=>$nilai->row()->n_matematika,
+                    'n_binggris'=>$nilai->row()->n_binggris
+                );
+            $this->response($respon, 200);
+        }else{
+            $this->response(array('status'=>false,'msg'=>'Data tidak ditemukan'), 500);
+        }
+    }else{
+        $nilai = $this->db->get('siswa');
+        if($nilai->num_rows() > 0){
+            $respon = array(
+                    'status'=>true,
+                    'data_nilai_siswa'=>$nilai->result_array(),
+                );
+            $this->response($respon, 200);
+        }else{
+            $this->response(array('status'=>false,'msg'=>'Data tidak ditemukan'), 500);
+        }
+    }
+}
